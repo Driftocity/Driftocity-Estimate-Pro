@@ -54,11 +54,14 @@ const App = {
 
   render() {
     const root = document.getElementById('app');
+    if (!root) return;
     if (!this.canUseApp() && this.currentView !== 'subscribe' && this.currentView !== 'settings') {
       this.currentView = 'subscribe';
     }
     root.innerHTML = this.buildLayout();
     this.attachEventListeners();
+    // Remove splash screen now that app has rendered
+    if (typeof window.removeSplash === 'function') window.removeSplash();
   },
 
   buildLayout() {
@@ -93,7 +96,7 @@ const App = {
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#FF6B35"/><path d="M8 22V14l8-6 8 6v8H19v-5h-6v5H8z" fill="white"/><rect x="13" y="19" width="6" height="5" rx="1" fill="#FF6B35"/></svg>
           </div>`}
         </div>
-        <h1 class="top-bar-title">${titles[this.currentView] || 'ContractorPro'}</h1>
+        <h1 class="top-bar-title">${titles[this.currentView] || 'Driftocity Estimate Pro'}</h1>
         <div class="top-bar-right">
           ${!this.isSubscribed() && this.currentView !== 'subscribe' ? `<span class="trial-badge">${this.trialDaysLeft}d trial</span>` : ''}
           ${this.currentView === 'estimate_detail' && this.currentEstimate ? 
@@ -883,7 +886,7 @@ const App = {
         <div class="form-section">
           <h3 class="section-title">About</h3>
           <div class="about-info">
-            <p><strong>ContractorPro Estimator</strong></p>
+            <p><strong>Driftocity Estimate Pro</strong></p>
             <p>Version 1.0.0</p>
             <p>Professional contractor estimates & invoices with ZIP-code adjusted regional pricing for all major trade types.</p>
             <p class="about-note">Pricing based on national averages adjusted by regional cost-of-living multipliers. Always verify local rates.</p>
@@ -901,7 +904,7 @@ const App = {
       <div class="view-subscribe">
         <div class="sub-hero">
           <div class="sub-logo">🏗️</div>
-          <h2>ContractorPro</h2>
+          <h2>Driftocity Estimate Pro</h2>
           <p class="sub-tagline">Professional estimates & invoices<br>for every trade</p>
         </div>
 
@@ -1382,7 +1385,7 @@ const App = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'contractorpro-data.json';
+    a.download = 'driftocity-estimate-pro-data.json';
     a.click();
     URL.revokeObjectURL(url);
   },
